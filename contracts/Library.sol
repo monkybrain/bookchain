@@ -17,6 +17,11 @@ contract Library {
     books[contributor].push(book);
     BookRegistered(book);
   }
+  /*function registerBook(address contributor) {
+    var book = msg.sender;
+    books[contributor].push(book);
+    BookRegistered(book);
+  }*/
 
   function getBooksByContributor(address contributor) public returns (address[]) {
       return books[contributor];

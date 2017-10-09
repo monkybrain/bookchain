@@ -14,10 +14,13 @@ contract Book {
   event Borrowed(address borrower, uint donation, uint donated);
   event AddedToLibrary(address library_address);
 
-  function Book(string _isbn, uint _price) {
+  function Book(string _isbn, uint _price, address _library_address) {
     contributor = msg.sender;
     isbn = _isbn;
     price = _price;
+    library_address = _library_address;
+    Library l = Library(library_address);
+    l.registerBook(contributor);
   }
 
   function addToLibrary(address _library_address) {

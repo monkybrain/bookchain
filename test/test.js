@@ -29,7 +29,7 @@ before(function() {
     library = _library;
     console.log("Library: " + library.address);
     events.BookRegistered = library.BookRegistered()
-    return Book.new(isbn, price, {from: contributor})
+    return Book.new(isbn, price, library.address, {from: contributor})
   }).then(function(_book) {
     book = _book;
     console.log("Book: "+ book.address);
@@ -56,21 +56,21 @@ describe('Book', function() {
     });
   });
 
-  it("Should add book to library", function(done) {
-    var event = book.AddedToLibrary();
-    event.watch(function(err, result) {
-      assert.equal(result.args.library_address, library.address, "incorrect library address");
-      event.stopWatching();
-      done();
-    });
-    book.addToLibrary(library.address, {from: contributor});
-  });
+  // it("Should add book to library", function(done) {
+  //   var event = book.AddedToLibrary();
+  //   event.watch(function(err, result) {
+  //     assert.equal(result.args.library_address, library.address, "incorrect library address");
+  //     event.stopWatching();
+  //     done();
+  //   });
+  //   book.addToLibrary(library.address, {from: contributor});
+  // });
 
-  it("Should register library address", function() {
-    return book.library_address.call().then(function(address) {
-      assert.equal(library.address, address, "incorrect library address");
-    });
-  });
+  // it("Should register library address", function() {
+  //   return book.library_address.call().then(function(address) {
+  //     assert.equal(library.address, address, "incorrect library address");
+  //   });
+  // });
 
   it("Should register borrower and donation", function(done) {
     var event = book.Borrowed()
@@ -90,7 +90,6 @@ describe('Library', function() {
 
   it("Should have registered book in previous test", function(done) {
     events.BookRegistered.watch(function(err, result) {
-      console.log("FISK!");
       console.log(result);
       events.BookRegistered.stopWatching();
       library.getBooksByContributor.call(contributor).then(function(books) {
