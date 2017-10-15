@@ -1,5 +1,5 @@
 var Book = artifacts.require("./Book.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Book, "1", "2");
+  deployer.deploy(Book, "1", 2);
 };
